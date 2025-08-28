@@ -6,7 +6,7 @@ const loadingDiv = document.getElementById('loading');
 
 async function loadVacancies() {
   try {
-    const response = await fetch('http://localhost:9000/api/vacancies');
+    const response = await fetch('https://elevate-backend-kappa.vercel.app/api/vacancies');
     const data = await response.json();
 
     // Fill in the select with id and title
@@ -103,7 +103,7 @@ document.getElementById('cv_ai').addEventListener('submit', async function (e) {
   loadingDiv.classList.remove('hidden');
 
   try {
-    const response = await fetch('http://localhost:9000/api/aicv/', {
+    const response = await fetch('https://elevate-backend-kappa.vercel.app/api/aicv/', {
       method: 'POST',
       body: formData,
     });
