@@ -24,7 +24,7 @@ export function deleteApplication(id) {
 
 // Get all vacancies with application count
 export async function getAllApplicationsColumn() {
-    const res = await fetch(`http://localhost:9000/api/applications/column`);
+    const res = await fetch(`https://elevate-backend-kappa.vercel.app/api/applications/column`);
     if (!res.ok) throw new Error(`Error fetching data: ${res.status}`);
     return res.json();
 }
