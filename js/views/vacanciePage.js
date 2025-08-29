@@ -338,9 +338,9 @@ function showStatusChangeModal(applicationId) {
         option.disabled = false;
         option.style.color = '';
         option.style.backgroundColor = '';
-        // Clean any previous "(Estado Actual)" text
-        if (option.textContent.includes(' (Estado Actual)')) {
-            option.textContent = option.textContent.replace(' (Estado Actual)', '');
+        // Clean any previous "(Current Status)" text
+        if (option.textContent.includes(' (Current Status)')) {
+            option.textContent = option.textContent.replace(' (Current Status)', '');
         }
     });
 
@@ -350,7 +350,7 @@ function showStatusChangeModal(applicationId) {
         currentOption.disabled = true;
         currentOption.style.color = '#9CA3AF'; // text-gray-400
         currentOption.style.backgroundColor = '#F9FAFB'; // bg-gray-50
-        currentOption.textContent = currentOption.textContent + ' (Estado Actual)';
+        currentOption.textContent = currentOption.textContent + ' (Current Status)';
     }
 
     // Set select to first available option (not current status)
@@ -370,7 +370,7 @@ function showStatusChangeModal(applicationId) {
  * Hide status change modal
  */
 function hideStatusChangeModal() {
-    // Clean up select options (remove "(Estado Actual)" text and reset states)
+    // Clean up select options (remove "(Current Status)" text and reset states)
     const statusSelect = document.getElementById('modal-status-select');
     if (statusSelect) {
         const options = statusSelect.querySelectorAll('option');
@@ -379,9 +379,9 @@ function hideStatusChangeModal() {
             option.disabled = false;
             option.style.color = '';
             option.style.backgroundColor = '';
-            // Remove "(Estado Actual)" text if present
-            if (option.textContent.includes(' (Estado Actual)')) {
-                option.textContent = option.textContent.replace(' (Estado Actual)', '');
+            // Remove "(Current Status)" text if present
+            if (option.textContent.includes(' (Current Status)')) {
+                option.textContent = option.textContent.replace(' (Current Status)', '');
             }
         });
     }
@@ -412,11 +412,11 @@ async function updateApplicationStatus(applicationId, newStatus) {
         // Reload all data to ensure consistency - this will also re-render everything
         await loadVacancyData();
 
-        showSuccess(`Estado actualizado a ${getApplicationStatusConfig(newStatus).label}`);
+        showSuccess(`Status updates to ${getApplicationStatusConfig(newStatus).label}`);
 
     } catch (error) {
         console.error('Error updating application status:', error);
-        showError('Error al actualizar el estado de la aplicación');
+        showError('Error updating application status:');
     }
 }
 
@@ -561,7 +561,7 @@ function setupModalEventListeners() {
             await updateApplicationStatus(pendingStatusChange.applicationId, newStatus);
             hideStatusChangeModal();
         } else {
-            showError('Por favor selecciona un estado');
+            showError('Choose a status');
         }
     });
 
