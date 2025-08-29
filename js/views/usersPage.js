@@ -1,5 +1,5 @@
 import { guard } from '../utils/guard.js';
-import { getUsers, createUser as createUserAPI, updateUser as updateUserAPI, deleteUser as deleteUserAPI } from '../api/users.js';
+import { getUsers, registerUser as createUserAPI, updateUser as updateUserAPI, deleteUser as deleteUserAPI } from '../api/users.js';
 import { renderNavbar } from '../components/ui/navbar.js';
 import { showSuccess, showError } from '../components/ui/messageToast.js';
 import { updatePagination } from '../components/ui/pagination.js';

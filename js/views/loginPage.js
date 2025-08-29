@@ -50,12 +50,12 @@ function initLoginForm() {
 
         // Validations
         if (!isEmailValid(email)) {
-            showError("Please enter a valid email address");
+            showError("Please enter a valid email address or password");
             return;
         }
 
         if (!isPasswordValid(password)) {
-            showError("Password: 6+ chars, A-Z, a-z, 0-9, special char");
+            showError("Please enter a valid email address or password");
             return;
         }
 
