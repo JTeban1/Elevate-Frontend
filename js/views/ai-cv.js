@@ -3,7 +3,6 @@ import { renderNavbar } from '../components/ui/navbar.js';
 
 const vacancySelect = document.getElementById('vacancy');
 const form = document.getElementById('cv_ai');
-const loadingDiv = document.getElementById('loading');
 
 async function loadVacancies() {
   try {
