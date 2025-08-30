@@ -41,12 +41,11 @@ export function createNavbar(activePage = '', options = {}) {
     return `
         <header class="flex items-center justify-between px-4 md:px-10 py-4 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white shadow-lg">
             <a href="${logoLink}" class="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
-                <div class="w-8 h-8 bg-white/15 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/20">
-                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-                <h2 class="text-xl md:text-2xl font-bold tracking-wide">${logoText}</h2>
+                <img src="../assets/img/logo.png" alt="Elevate Logo" class="w-9 h-9 rounded-xl" />
+                <h2 class="text-lg md:text-xl font-bold tracking-wide">
+                    Elevate
+                    <span class="block text-xs font-medium opacity-80">your talent</span>
+                </h2>
             </a>
             
             ${showNavigation ? `
