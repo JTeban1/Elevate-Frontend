@@ -335,7 +335,10 @@ function hideNoteForm() {
         }
     }
     
-    // Don't automatically show Add Note button - let loadAndRenderNotes() handle visibility
+    // Show Add Note button when canceling
+    if (addBtn) {
+        addBtn.style.display = 'block';
+    }
 }
 
 /**
@@ -343,8 +346,15 @@ function hideNoteForm() {
  */
 async function saveNote() {
     const content = document.getElementById('note-content')?.value.trim();
+    const saveBtn = document.getElementById('save-note-btn');
     
     if (!content) return;
+    
+    // Disable button to prevent multiple clicks
+    if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
+    }
     
     try {
         await updateCandidateNotes(candidate.candidate_id, content);
@@ -354,6 +364,12 @@ async function saveNote() {
     } catch (error) {
         console.error('Error saving note:', error);
         showError('Error saving note');
+    } finally {
+        // Re-enable button
+        if (saveBtn) {
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Note';
+        }
     }
 }
 
@@ -520,6 +536,14 @@ function closeDeleteNoteModal() {
  * Confirm note deletion (actual deletion)
  */
 async function confirmDeleteNote() {
+    const confirmBtn = document.getElementById('confirm-delete-note-btn');
+    
+    // Disable button to prevent multiple clicks
+    if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Deleting...';
+    }
+    
     try {
         // Delete by setting notes to empty string
         await updateCandidateNotes(candidate.candidate_id, '');
@@ -530,6 +554,12 @@ async function confirmDeleteNote() {
         console.error('Error deleting note:', error);
         showError('Error deleting note');
         closeDeleteNoteModal();
+    } finally {
+        // Re-enable button
+        if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = 'Delete';
+        }
     }
 }
 
