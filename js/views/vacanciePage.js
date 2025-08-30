@@ -338,9 +338,9 @@ function showStatusChangeModal(applicationId) {
         option.disabled = false;
         option.style.color = '';
         option.style.backgroundColor = '';
-        // Clean any previous "(Estado Actual)" text
-        if (option.textContent.includes(' (Estado Actual)')) {
-            option.textContent = option.textContent.replace(' (Estado Actual)', '');
+        // Clean any previous "(Current Status)" text
+        if (option.textContent.includes(' (Current Status)')) {
+            option.textContent = option.textContent.replace(' (Current Status)', '');
         }
     });
 
@@ -350,7 +350,7 @@ function showStatusChangeModal(applicationId) {
         currentOption.disabled = true;
         currentOption.style.color = '#9CA3AF'; // text-gray-400
         currentOption.style.backgroundColor = '#F9FAFB'; // bg-gray-50
-        currentOption.textContent = currentOption.textContent + ' (Estado Actual)';
+        currentOption.textContent = currentOption.textContent + ' (Current Status)';
     }
 
     // Set select to first available option (not current status)
@@ -370,7 +370,7 @@ function showStatusChangeModal(applicationId) {
  * Hide status change modal
  */
 function hideStatusChangeModal() {
-    // Clean up select options (remove "(Estado Actual)" text and reset states)
+    // Clean up select options (remove "(Current Status)" text and reset states)
     const statusSelect = document.getElementById('modal-status-select');
     if (statusSelect) {
         const options = statusSelect.querySelectorAll('option');
@@ -379,9 +379,9 @@ function hideStatusChangeModal() {
             option.disabled = false;
             option.style.color = '';
             option.style.backgroundColor = '';
-            // Remove "(Estado Actual)" text if present
-            if (option.textContent.includes(' (Estado Actual)')) {
-                option.textContent = option.textContent.replace(' (Estado Actual)', '');
+            // Remove "(Current Status)" text if present
+            if (option.textContent.includes(' (Current Status)')) {
+                option.textContent = option.textContent.replace(' (Current Status)', '');
             }
         });
     }
@@ -412,11 +412,11 @@ async function updateApplicationStatus(applicationId, newStatus) {
         // Reload all data to ensure consistency - this will also re-render everything
         await loadVacancyData();
 
-        showSuccess(`Estado actualizado a ${getApplicationStatusConfig(newStatus).label}`);
+        showSuccess(`Status updates to ${getApplicationStatusConfig(newStatus).label}`);
 
     } catch (error) {
         console.error('Error updating application status:', error);
-        showError('Error al actualizar el estado de la aplicación');
+        showError('Error updating application status:');
     }
 }
 
@@ -554,14 +554,33 @@ function setupModalEventListeners() {
 
     // Confirm status change
     document.getElementById('confirm-status-change')?.addEventListener('click', async function () {
+        const confirmBtn = document.getElementById('confirm-status-change');
         const statusSelect = document.getElementById('modal-status-select');
         const newStatus = statusSelect.value;
 
         if (pendingStatusChange.applicationId && newStatus) {
-            await updateApplicationStatus(pendingStatusChange.applicationId, newStatus);
-            hideStatusChangeModal();
+            confirmBtn.disabled = true;
+            confirmBtn.innerHTML = `
+                <div class="flex items-center justify-center gap-2">
+                    <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Updating...</span>
+                </div>
+            `;
+            
+            try {
+                await updateApplicationStatus(pendingStatusChange.applicationId, newStatus);
+                hideStatusChangeModal();
+            } catch (error) {
+                // Error already handled in updateApplicationStatus
+            } finally {
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = 'Confirm Change';
+            }
         } else {
-            showError('Por favor selecciona un estado');
+            showError('Choose a status');
         }
     });
 
