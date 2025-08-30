@@ -100,8 +100,8 @@ function renderCandidatesCards() {
         // Show no candidates message
         const hasActiveFilters = currentFilters.search || currentFilters.occupation || currentFilters.skill;
         const message = hasActiveFilters
-            ? 'No hay candidatos que coincidan con los filtros aplicados'
-            : 'No hay candidatos disponibles';
+            ? 'There are not matching candidates'
+            : 'There are not available candidates';
 
         container.innerHTML = `
             <div class="px-6 py-8 text-center text-gray-500">
@@ -110,7 +110,7 @@ function renderCandidatesCards() {
                         <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Z"/>
                     </svg>
                     <p class="font-medium text-gray-600">${message}</p>
-                    <p class="text-sm text-gray-400">Intenta ajustar los filtros o revisar la conexion</p>
+                    <p class="text-sm text-gray-400">Intenta ajustar los filtros o revisar la conexion, Check the filter or check your connection</p>
                 </div>
             </div>
         `;

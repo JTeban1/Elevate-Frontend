@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", () => {
     guard(); // Protect the page
     if (!isAdmin()) {
         // Further protection: redirect if not admin, as this is a sensitive page
-        window.location.href = 'index.html';
+        window.location.href = 'vacanciesPage.html';
         showError('You do not have permission to access this page.');
         return;
     }
