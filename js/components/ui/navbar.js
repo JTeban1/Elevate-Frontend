@@ -49,12 +49,26 @@ export function createNavbar(activePage = '', options = {}) {
             </a>
             
             ${showNavigation ? `
+                <!-- Desktop Navigation -->
                 <nav class="hidden md:flex gap-8 text-base font-medium">
                     ${navigationHTML}
                 </nav>
+                
             ` : ''}
             
             <div class="flex items-center gap-4">
+                <!-- Mobile Menu Button -->
+                ${showNavigation ? `
+                    <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-white hover:bg-white/10 transition-colors">
+                        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                ` : ''}
+                
                 <div class="relative">
                     <div id="user-avatar" class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center ring-2 ring-white/30 shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer">
                         <span id="user-initials" class="text-white font-bold text-sm">--</span>
@@ -73,6 +87,21 @@ export function createNavbar(activePage = '', options = {}) {
                 </div>
             </div>
         </header>
+        
+        ${showNavigation ? `
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-nav-menu" class="hidden md:hidden bg-blue-800 shadow-lg border-t border-blue-600">
+                <nav class="px-4 py-3 space-y-1">
+                    ${navigationItems.map(item => {
+                        const isActive = activePage === item.id;
+                        const activeClasses = isActive 
+                            ? 'block px-3 py-2 rounded-lg bg-blue-700 text-white text-sm font-medium'
+                            : 'block px-3 py-2 rounded-lg text-blue-100 hover:bg-blue-700 hover:text-white transition-colors text-sm font-medium';
+                        return `<a class="${activeClasses}" href="${item.href}">${item.label}</a>`;
+                    }).join('')}
+                </nav>
+            </div>
+        ` : ''}
     `;
 }
 
@@ -82,6 +111,7 @@ export function createNavbar(activePage = '', options = {}) {
  */
 export function initializeNavbar() {
     setupUserDropdown();
+    setupMobileMenu();
 }
 
 /**
@@ -151,6 +181,58 @@ function setupUserDropdown() {
             window.location.href = '../index.html';
         });
     }
+}
+
+/**
+ * Setup mobile menu functionality
+ * Handles hamburger button toggle and menu visibility
+ */
+function setupMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    if (!mobileMenuBtn || !mobileNavMenu) {
+        console.warn('Navbar: Mobile menu elements not found');
+        return;
+    }
+
+    // Mobile menu toggle
+    mobileMenuBtn.addEventListener('click', function () {
+        const isHidden = mobileNavMenu.classList.contains('hidden');
+        
+        if (isHidden) {
+            // Show menu
+            mobileNavMenu.classList.remove('hidden');
+            menuIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
+        } else {
+            // Hide menu
+            mobileNavMenu.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        }
+    });
+
+    // Close mobile menu when clicking on navigation links
+    const mobileNavLinks = mobileNavMenu.querySelectorAll('a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileNavMenu.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        });
+    });
+
+    // Close mobile menu when screen becomes larger
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) { // md breakpoint
+            mobileNavMenu.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        }
+    });
 }
 
 /**

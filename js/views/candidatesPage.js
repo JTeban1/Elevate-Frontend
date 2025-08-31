@@ -159,15 +159,46 @@ function createCandidateCard(candidate) {
     const initials = candidate.name.split(' ').map(word => word.charAt(0)).join('').substring(0, 2).toUpperCase();
 
     div.innerHTML = `
-        <div class="flex items-center gap-6">
-            <!-- Avatar -->
+        <!-- Mobile Layout (< md) -->
+        <div class="md:hidden p-4">
+            <div class="flex items-center gap-3 mb-3">
+                <a href="candidatePage.html?id=${candidate.candidate_id}" class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-xs">${initials}</span>
+                </a>
+                <div class="flex-1 min-w-0">
+                    <h3 class="text-base font-bold truncate">
+                        <a href="candidatePage.html?id=${candidate.candidate_id}" class="text-gray-900 hover:text-blue-600">${candidate.name}</a>
+                    </h3>
+                    <p class="text-xs text-blue-600 font-medium truncate">${candidate.occupation}</p>
+                </div>
+                <button class="view-candidate-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg" data-candidate-id="${candidate.candidate_id}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-xs text-gray-600 mb-2 line-clamp-2">${candidate.summary}</p>
+            <div class="flex flex-wrap gap-1 mb-2">
+                ${skills.slice(0, 2).map(skill => {
+                    const skillName = typeof skill === 'string' ? skill : skill.name || 'Unknown';
+                    return `<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">${skillName}</span>`;
+                }).join('')}
+                ${skills.length > 2 ? `<span class="text-xs text-gray-500">+${skills.length - 2}</span>` : ''}
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs text-gray-500">
+                <span class="truncate">${candidate.email || 'No email'}</span>
+                <span class="truncate">${candidate.phone || 'No phone'}</span>
+            </div>
+        </div>
+
+        <!-- Desktop Layout (≥ md) -->
+        <div class="hidden md:flex items-center gap-6 p-6">
             <div class="flex-shrink-0">
                 <a href="candidatePage.html?id=${candidate.candidate_id}" class="block w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200">
                     <span class="text-white font-bold text-sm">${initials}</span>
                 </a>
             </div>
             
-            <!-- Main information -->
             <div class="flex-1 min-w-0">
                 <div class="flex items-start justify-between mb-2">
                     <div>
@@ -187,16 +218,14 @@ function createCandidateCard(candidate) {
                 
                 <p class="text-sm text-gray-600 mb-3 line-clamp-2">${candidate.summary}</p>
                 
-                <!-- Skills and Languages -->
                 <div class="flex flex-wrap gap-2 mb-3">
                     ${skills.slice(0, 3).map(skill => {
-        const skillName = typeof skill === 'string' ? skill : skill.name || 'Unknown';
-        return `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">${skillName}</span>`;
-    }).join('')}
+                        const skillName = typeof skill === 'string' ? skill : skill.name || 'Unknown';
+                        return `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800">${skillName}</span>`;
+                    }).join('')}
                     ${skills.length > 3 ? `<span class="text-xs text-gray-500">+${skills.length - 3} more</span>` : ''}
                 </div>
                 
-                <!-- Additional information -->
                 <div class="flex items-center gap-4 text-xs text-gray-500">
                     <span class="flex items-center gap-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256">
@@ -219,12 +248,8 @@ function createCandidateCard(candidate) {
                 </div>
             </div>
             
-            <!-- Action button -->
             <div class="flex-shrink-0">
-                <button 
-                    class="view-candidate-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all"
-                    data-candidate-id="${candidate.candidate_id}"
-                    title="Show Details">
+                <button class="view-candidate-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all" data-candidate-id="${candidate.candidate_id}" title="Show Details">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
                         <path d="M247.31,124.76c-.35-.79-8.82-19.58-27.65-38.41C194.57,61.26,162.88,48,128,48S61.43,61.26,36.34,86.35C17.51,105.18,9,124,8.69,124.76a8,8,0,0,0,0,6.5c.35.79,8.82,19.57,27.65,38.4C61.43,194.74,93.12,208,128,208s66.57-13.26,91.66-38.34c18.83-18.83,27.3-37.61,27.65-38.4A8,8,0,0,0,247.31,124.76ZM128,192c-30.78,0-57.67-11.19-79.93-33.25A133.47,133.47,0,0,1,25,128,133.33,133.33,0,0,1,48.07,97.25C70.33,75.19,97.22,64,128,64s57.67,11.19,79.93,33.25A133.46,133.46,0,0,1,231.05,128C223.84,141.46,192.43,192,128,192Zm0-112a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Z"/>
                     </svg>
