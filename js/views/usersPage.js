@@ -4,6 +4,7 @@ import { renderNavbar } from '../components/ui/navbar.js';
 import { showSuccess, showError } from '../components/ui/messageToast.js';
 import { updatePagination } from '../components/ui/pagination.js';
 import { isAdmin } from '../utils/auth.js';
+import { isPasswordValidForRegistration, isEmailValid } from '../utils/validators.js';
 
 // Global state
 let allUsers = [];
@@ -239,6 +240,26 @@ async function handleFormSubmit(event) {
         return;
     }
 
+    // Validate email format
+    if (!isEmailValid(userData.email)) {
+        showError('Please enter a valid email address.');
+        submitButton.disabled = false;
+        return;
+    }
+
+    // Validate password for new users or when changing password
+    if (!currentEditingId && !userData.password) {
+        showError('Password is required for new users.');
+        submitButton.disabled = false;
+        return;
+    }
+
+    if (userData.password && !isPasswordValidForRegistration(userData.password)) {
+        showError('Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@#$%^&*!?.-_+).');
+        submitButton.disabled = false;
+        return;
+    }
+
     try {
         if (currentEditingId) {
             // Update user
@@ -249,12 +270,7 @@ async function handleFormSubmit(event) {
             await updateUserAPI(currentEditingId, userData);
             showSuccess('User updated successfully!');
         } else {
-            // Create user
-            if (!userData.password) {
-                showError('Password is required for new users.');
-                submitButton.disabled = false;
-                return;
-            }
+            // Create user - password is already validated above
             await createUserAPI(userData);
             showSuccess('User created successfully!');
         }
