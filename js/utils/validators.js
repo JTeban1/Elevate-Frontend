@@ -10,7 +10,7 @@ export function isEmpty(value) {
 export function isPasswordValid(password) {
     if (isEmpty(password)) return false;
     
-    // For login: simple validation (minimum 6 characters)
+    // Simple validation: minimum 6 characters
     return password.length >= 6;
 }
 
