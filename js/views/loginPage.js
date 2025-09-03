@@ -48,17 +48,6 @@ function initLoginForm() {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        // Validations
-        if (!isEmailValid(email)) {
-            showError("Please enter a valid email address or password");
-            return;
-        }
-
-        if (!isPasswordValid(password)) {
-            showError("Please enter a valid email address or password");
-            return;
-        }
-
         // Loading state
         const submitButton = loginForm.querySelector('button[type="submit"]');
         const originalText = submitButton.textContent;
