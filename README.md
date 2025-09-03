@@ -39,27 +39,27 @@ The frontend component of **Elevate**, a modern Single Page Application (SPA) bu
 │                    Frontend Architecture                    │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    │
-│  │   Views     │    │ Components  │    │   Utils     │    │
-│  │             │    │             │    │             │    │
-│  │ • Login     │◄──►│ • Navbar    │    │ • Auth      │    │
-│  │ • Users     │    │ • Cards     │    │ • Guards    │    │
-│  │ • Candidates│    │ • Pagination│    │ • Validators│    │
-│  │ • Vacancies │    │ • Toasts    │    │ • Config    │    │
-│  │ • AI-CV     │    │ • Badges    │    │             │    │
-│  └─────────────┘    └─────────────┘    └─────────────┘    │
-│         │                   │                   │         │
-│         └─────────────────────┼───────────────────┘         │
-│                               │                             │
-│  ┌─────────────────────────────▼─────────────────────────┐  │
-│  │                API Layer                            │  │
-│  │                                                     │  │
-│  │ • users.js      • candidates.js   • applications.js │  │
-│  │ • vacancies.js  • roles.js        • ai.js              │  │
-│  └─────────────────────────────────────────────────────┘  │
-│                               │                             │
-│                               ▼                             │
-│                    Backend REST API                         │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐      │
+│  │    Views    │    │ Components  │    │    Utils    │      │
+│  │             │    │             │    │             │      │
+│  │ • Login     │◄──►│ • Navbar    │    │ • Auth      │      │
+│  │ • Users     │    │ • Cards     │    │ • Guards    │      │
+│  │ • Candidates│    │ • Pagination│    │ • Validators│      │
+│  │ • Vacancies │    │ • Toasts    │    │ • Config    │      │
+│  │ • AI-CV     │    │ • Badges    │    │             │      │
+│  └─────────────┘    └─────────────┘    └─────────────┘      │
+│         │                   │                   │           │
+│         └───────────────────┼───────────────────┘           │
+│                             │                               │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │                  API Layer                          │    │
+│  │                                                     │    │
+│  │ • users.js      • candidates.js   • applications.js │    │
+│  │ • vacancies.js  • roles.js        • ai.js           │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                             │                               │
+│                             ▼                               │
+│                   Backend REST API                          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
